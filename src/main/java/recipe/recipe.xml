@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "Recipe">
+	
+	<select id = "getRecipes" parameterType = "java.util.Map" resultType="recipe.recipeDTO">
+		select * from cw_recipe
+	</select>
+	
+	 <select id = "getCount" resultType = "int">
+ 		select count(*) from cw_recipe
+ 	</select>
+ 	
+ 	<select id = "getRecipe" parameterType="int" resultType="recipe.recipeDTO">
+		select * from cw_recipe where recipe_id =#{recipe_id}
+	</select>
+	
+	
+	<select id = "getIngred" parameterType="int" resultType="recipe.ingredDTO">
+		select r.id,r.recipe_title,i.ingred_name,i.ingred_weight,c.codename 
+		from cw_recipe r,ingred i,codename c 
+		where i.recipe_id = r.recipe_id 
+		AND i.code = c.code AND r.recipe_id=#{recipe_id} AND c.code=1
+	</select>
+	
+	<select id = "getSeasoning" parameterType="int" resultType="recipe.ingredDTO">
+		select r.id,r.recipe_title,i.ingred_name,i.ingred_weight,c.codename 
+		from cw_recipe r,ingred i,codename c 
+		where i.recipe_id = r.recipe_id 
+		AND i.code = c.code AND r.recipe_id=#{recipe_id} AND c.code=2
+	</select>
+	
+	<select id = "getRecipePro" parameterType="int" resultType="recipe.recipeproDTO">
+		select *
+		from cw_recipe r, recipe_pro p where r.recipe_id = p.recipe_id AND r.recipe_id=#{recipe_id}
+	</select>
+	
+	<insert id="insertRecipe" parameterType="recipe.recipeDTO">
+		insert into cw_recipe values( 
+			SEQ_CW_RECIPE_recipe_id.nextval,#{recipetitle},#{recipe_intro},sysdate,#{image_upload},#{memId}
+		)
+	</insert>
+	
+	<insert id="insertIngred" parameterType="recipe.ingredDTO">
+		insert into cw_recipe values( 
+			SEQ_INGRED_ingred_num.nextval,#{recipe_id},#{ingredient_name},1,#{ingredient_amount}
+		)
+	</insert>
+	
+	<insert id="insertSeasoning" parameterType="recipe.ingredDTO">
+		insert into cw_recipe values( 
+			SEQ_INGRED_ingred_num.nextval,#{recipe_id},#{seasoning_name},2,#{seasoning_amount}
+		)
+	</insert>
+	
+	<insert id="insertRecipepro" parameterType="recipe.recipeproDTO">
+		insert into cw_recipe values( 
+			SEQ_RECIPE_PRO_recipe_num.nextval,#{recipe_id},(SELECT NVL(MAX(pro_order), 0) + 1 FROM recipe_pro),#{step_description},#{step_image}
+		)
+	</insert>
+</mapper>
+ 

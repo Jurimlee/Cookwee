@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace = "Csc">
+ 	<select id = "getCount" resultType = "int">
+ 		select count(*) from CW_CSC
+ 	</select>
+ 	
+ 	<select id = "getCsclist" parameterType = "java.util.Map" resultType="csc.cscDTO">
+ 		select * from cw_csc order by csc_num desc
+ 	</select>
+ 	 <select id = "getCscArticle" parameterType="int" resultType="csc.cscDTO">
+ 		select * from cw_csc where csc_num =#{csc_num} 
+ 	</select>
+ 	 	<insert id = "insertCsc" parameterType ="csc.cscDTO">
+ 		insert into cw_csc values(SEQ_CW_CSC_csc_num.NEXTVAL,#{id},#{csc_title},#{csc_comment},#{csc_regdate})
+ 	</insert>
+ </mapper>  
+  

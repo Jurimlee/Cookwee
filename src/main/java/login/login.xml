@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="Login">
+  	<select id = "checkId" parameterType = "String" resultType = "int">
+  		select count(*) from cw_user where id =#{id}
+  	</select>
+  	<select id = "getUser" parameterType="String" resultType="login.loginDTO">
+		select * from cw_user where id =#{id}
+	</select>
+	<insert id = "insertMember" parameterType="login.loginDTO">
+		insert into cw_user values(
+			#{id},#{passwd},#{name},#{address},DEFAULT,sysdate,DEFAULT
+		)
+	</insert>
+	<update id="modifyMember" parameterType="login.loginDTO">
+	    update cw_user
+	    set passwd=#{passwd}, address=#{address}
+	    where id=#{id}
+	</update>
+	<delete id="deleteMember" parameterType="String">
+		delete from cw_user where id=#{id}
+	</delete>
+ </mapper>

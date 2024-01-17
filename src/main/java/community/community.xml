@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "Community"> 
+ 	<select id = "getCount" resultType = "int">
+ 		select count(*) from cw_community
+ 	</select>
+ 	<select id = "getCommunitylist" parameterType = "java.util.Map" resultType="community.communityDTO">
+ 		select 
+ 		c.cate_name,c1.cm_num,c1.id,c1.cm_title,c1.cm_hit,c1.cm_regdate from cw_community c1,cm_category c 
+		where c1.cate_num = c.cate_num order by c1.cm_num desc
+ 	</select>
+ </mapper>  
